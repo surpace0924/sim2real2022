@@ -16,79 +16,14 @@ class TrajectoryViewer:
     def createRobot(self, pose, robot=None, ec='#000000', fc='#FFFFFF', fill=False):
         # ロボットの形状定義
         point = []
-        if robot == "AR":
-            point.append((+0.062, +0.541))
-            point.append((+0.062, +0.447))
-            point.append((+0.299, -0.187))
-            point.append((+0.299, -0.363))
-            point.append((-0.299, -0.363))
-            point.append((-0.299, -0.187))
-            point.append((-0.062, +0.447))
-            point.append((-0.062, +0.541))
-        if robot == "AR_extend":
-            point.append((+0.020, +0.851))
-            point.append((-0.020, +0.851))
-            point.append((-0.020, +0.541))
-            point.append((-0.062, +0.541))
-            point.append((-0.062, +0.447))
-            point.append((-0.275, -0.123))
-            point.append((-0.432, -0.123))
-            point.append((-0.432, -0.283))
-            point.append((-0.299, -0.283))
-            point.append((-0.299, -0.363))
-            point.append((-0.020, -0.363))
-            point.append((-0.020, -0.783))
-            point.append((+0.020, -0.783))
-            point.append((+0.020, -0.363))
-            point.append((+0.299, -0.363))
-            point.append((+0.299, -0.283))
-            point.append((+0.432, -0.283))
-            point.append((+0.432, -0.123))
-            point.append((+0.275, -0.123))
-            point.append((+0.062, +0.447))
-            point.append((+0.062, +0.541))
-            point.append((+0.020, +0.541))
-            point.append((+0.020, +0.851))
-        elif robot == "TR":
-            point.append((+0.475, +0.250))
-            point.append((+0.070, +0.250))
-            point.append((+0.041, +0.327))
-            point.append((-0.041, +0.327))
-            point.append((-0.070, +0.250))
-            point.append((-0.475, +0.250))
-            point.append((-0.475, -0.250))
-            point.append((+0.475, -0.250))
-
-            # point.append((0.3531+0.141, +0.227))
-            # point.append((0.3531+0.049, +0.261))
-            # point.append((0.3531-0.098, +0.261))
-            # point.append((+0.230, +0.260))
-            # point.append((+0.161, +0.301))
-            # point.append((+0.066, +0.301))
-            # point.append((+0.045, +0.380))
-            # point.append((-0.045, +0.380))
-            # point.append((-0.066, +0.301))
-            # point.append((-0.161, +0.301))
-            # point.append((-0.230, +0.260))
-            # point.append((-(0.3531-0.098), +0.261))
-            # point.append((-(0.3531+0.049), +0.261))
-            # point.append((-(0.3531+0.141), +0.227))
-            # point.append((-(0.3531+0.141), -0.227))
-            # point.append((-(0.3531+0.049), -0.261))
-            # point.append((-(0.3531-0.098), -0.261))
-            # point.append((-0.230, -0.260))
-            # point.append((-0.161, -0.301))
-            # point.append((+0.161, -0.301))
-            # point.append((+0.230, -0.260))
-            # point.append((0.3531-0.098, -0.261))
-            # point.append((0.3531+0.049, -0.261))
-            # point.append((0.3531+0.141, -0.227))
-
-        else:
-            point.append((+0.500, +0.500))
-            point.append((-0.500, +0.500))
-            point.append((-0.500, -0.500))
-            point.append((+0.500, -0.500))
+        point.append((+0.120, +0.160))
+        point.append((+0.050, +0.160))
+        point.append((+0.050, +0.200))
+        point.append((-0.050, +0.200))
+        point.append((-0.050, +0.160))
+        point.append((-0.120, +0.160))
+        point.append((-0.120, -0.160))
+        point.append((+0.120, -0.160))
 
         # 回転変換
         rotated_point = np.empty((0,2), float)
@@ -113,46 +48,93 @@ class TrajectoryViewer:
 
         return plt.Polygon((point[0], point[1], point[2], point[3]), ec=ec, fc=fc, fill=fill)
 
+    def createRectangleBy2Points(self, pose1, pose2, ec='#000000', fc='#FFFFFF', fill=False):
+        w = abs(pose2[0] - pose1[0])
+        h = abs(pose2[1] - pose1[1])
+        p = pose1
+        if p[0] > pose2[0]:
+            p[0] = pose2[0]
+        if p[1] > pose2[1]:
+            p[1] = pose2[1]
+        
+        points = [p, p, p, p]
+        points[0] = p
+        points[1] = [p[0] + w, p[1]]  
+        points[2] = [p[0] + w, p[1] + h]  
+        points[3] = [p[0], p[1] + h]  
+
+        return plt.Polygon((points[0], points[1], points[2], points[3]), ec=ec, fc=fc, fill=fill)
+
     def display(self):
         fig = plt.figure()
         ax = plt.axes()
 
         # フィールド構造物の描画
         field = []
-        field.append(plt.Polygon(((+3.450, -5.950),
-                                  (+3.450, -4.000),
-                                  (-0.025, -4.000),
-                                  (-0.025, -3.950),
-                                  (+3.450, -3.950),
-                                  (+3.450, +1.950),
-                                  (-3.450, +1.950),
-                                  (-3.450, -3.950),
-                                  (-1.025, -3.950),
-                                  (-1.025, -4.000),
-                                  (-3.450, -4.000),
-                                  (-3.450, -5.950)),
+        field.append(plt.Polygon(((+0.000, -0.000),
+                                  (+5.000, -0.000),
+                                  (+5.000, -4.000),
+                                  (+0.000, -4.000)),
                                 ec='#000000', fill=False))
-        # テーブル
-        field.append(self.createRectangle([0.0, 0.0, 0.0], 1.150, 0.330, fill=True))
-        field.append(self.createRectangle([0.0, -2.5, 0.0], 1.150, 0.330, fill=True))
-        field.append(patches.Circle(xy=(-2, 0.28), radius=0.46, ec='#000000', fill=False))
-        field.append(patches.Circle(xy=(-2, -0.28), radius=0.46, ec='#000000', fill=False))
-        field.append(self.createRectangle([-2.0, 0.0, 0.0], 1.0, 0.560, ec='#FFFFFF', fill=True))
+
+        # Starting Zone
+        field.append(self.createRectangleBy2Points([+3.74, -3.59], [+4.06, -4.00]))
+
+        # Mineral Zone
+        field.append(self.createRectangleBy2Points([+0.00, -3.60], [+0.40, -4.00]))
+        field.append(self.createRectangleBy2Points([+1.16, -3.04], [+1.56, -3.44]))
+        field.append(self.createRectangleBy2Points([+0.71, -1.43], [+1.11, -1.14]))
+        field.append(self.createRectangleBy2Points([+3.30, -1.62], [+3.70, -2.02]))
+        field.append(self.createRectangleBy2Points([+4.63, -0.13], [+5.03, -0.41]))
+
+        # Exchnage Station
+        field.append(self.createRectangleBy2Points([+1.46, -1.51], [+1.60, -1.98]))
+        field.append(self.createRectangleBy2Points([+1.60, -1.66], [+2.43, -1.84]))
+        field.append(self.createRectangleBy2Points([+2.43, -1.51], [+2.56, -1.98]))
+        
+
+        # Obstacle
+        field.append(plt.Polygon(((+0.00, -3.35),
+                                  (+0.23, -3.35),
+                                  (+0.40, -3.73),
+                                  (+0.40, -4.00),
+                                  (+0.00, -4.00)),
+                                ec='#000000', fill=False))
+        field.append(plt.Polygon(((+0.94, -2.80),
+                                  (+1.80, -2.80),
+                                  (+1.80, -3.40),
+                                  (+1.56, -3.40),
+                                  (+1.56, -3.04),
+                                  (+0.94, -3.04)),
+                                ec='#000000', fill=False))
+        field.append(plt.Polygon(((+3.19, -2.02),
+                                  (+4.20, -2.02),
+                                  (+4.20, -2.24),
+                                  (+3.19, -2.24)),
+                                ec='#000000', fill=False))
+                                
+        field.append(plt.Polygon(((+4.24, -4.00),
+                                  (+4.24, -3.45),
+                                  (+4.42, -3.22),
+                                  (+5.00, -3.22),
+                                  (+5.00, -4.00)),
+                                ec='#000000', fill=False))
+
+        # Hill
+        field.append(plt.Polygon(((+0.00, -0.00),
+                                  (+4.30, -0.00),
+                                  (+4.30, -0.74),
+                                  (+3.80, -0.74),
+                                  (+3.80, -1.08),
+                                  (+3.03, -1.08),
+                                  (+3.03, -0.74),
+                                  (+0.71, -0.74),
+                                  (+0.71, -2.03),
+                                  (+0.00, -2.03)),
+                                ec='#000000', fill=False))
+
         for f in field:
             ax.add_patch(f)
-
-        # スタートゾーン
-        ax.plot([3.45, 2.45], [-4.95, -4.95], "black", linewidth = 1)
-        ax.plot([2.45, 2.45], [-4.95, -5.95], "black", linewidth = 1)
-        ax.plot([-0.025, -0.025], [-4.000, -3.000], "black", linewidth = 1)
-        ax.plot([-1.025, -0.025], [-3.000, -3.000], "black", linewidth = 1)
-        ax.plot([-1.025, -1.025], [-3.000, -4.000], "black", linewidth = 1)
-        ax.plot([-1.025, -0.025], [-4.000, -4.000], "black", linewidth = 1)
-
-        # ラック
-        ax.plot([-2.45, -3.45], [-5.45, -5.45], "black", linewidth = 1)
-        ax.plot([-2.45, -2.45], [-5.45, -5.95], "black", linewidth = 1)
-        ax.plot([-2.45, -3.45], [-5.63, -5.63], "black", linewidth = 1)
 
         # 速度に応じて打点色を変える
         color_list = []

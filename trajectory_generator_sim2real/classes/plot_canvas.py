@@ -35,6 +35,23 @@ def createRectangle(pose, width, height, ec='#000000', fc='#FFFFFF', fill=False)
 
     return plt.Polygon((point[0], point[1], point[2], point[3]), ec=ec, fc=fc, fill=fill)
 
+def createRectangleBy2Points(pose1, pose2, ec='#000000', fc='#FFFFFF', fill=False):
+    w = abs(pose2[0] - pose1[0])
+    h = abs(pose2[1] - pose1[1])
+    p = pose1
+    if p[0] > pose2[0]:
+        p[0] = pose2[0]
+    if p[1] > pose2[1]:
+        p[1] = pose2[1]
+    
+    points = [p, p, p, p]
+    points[0] = p
+    points[1] = [p[0] + w, p[1]]  
+    points[2] = [p[0] + w, p[1] + h]  
+    points[3] = [p[0], p[1] + h]  
+
+    return plt.Polygon((points[0], points[1], points[2], points[3]), ec=ec, fc=fc, fill=fill)
+
 def resizeByRange(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
@@ -61,9 +78,9 @@ class PlotCanvas(FigureCanvas):
     def __init__(self, parent=None, width=5, height=4, dpi=100):
         # 各種パラメータ
         self.parent = parent
-        self.origin = [380, 380]                                       # 原点の座標[px]
-        self.scale = 0.01593                                      # 縮尺[m/px]
-        self.map_path = os.path.dirname(__file__) + "/../map/2021.png" # map画像のパス
+        self.origin = [380, 380]                                        # 原点の座標[px]
+        self.scale = 0.01593                                            # 縮尺[m/px]
+        self.map_path = os.path.dirname(__file__) + "/../map/2021.png"  # map画像のパス
         self.control_point = None
         self.traj = None
         self.origin_point = None
@@ -86,7 +103,6 @@ class PlotCanvas(FigureCanvas):
         self.drawOrigin(self.origin)
 
     def plot(self):
-
         # フィールド構造物の描画
         field = []
         field.append(plt.Polygon(((+0.000, -0.000),
@@ -96,19 +112,19 @@ class PlotCanvas(FigureCanvas):
                                 ec='#000000', fill=False))
 
         # Starting Zone
-        # self.ax.plot([+3.74, -3.59], [+4.06, -4.00], "black", linewidth = 1)
+        field.append(createRectangleBy2Points([+3.74, -3.59], [+4.06, -4.00]))
 
         # Mineral Zone
-        # self.ax.plot([+0.00, +0.40], [-3.60, -4.00], "black", linewidth = 1)
-        # self.ax.plot([+1.16, +1.56], [-3.04, -3.44], "black", linewidth = 1)
-        # self.ax.plot([+0.71, +1.11], [-7.43, -1.14], "black", linewidth = 1)
-        # self.ax.plot([+3.30, +3.70], [-1.62, -2.02], "black", linewidth = 1)
-        # self.ax.plot([+4.63, +5.03], [-0.13, -0.41], "black", linewidth = 1)
+        field.append(createRectangleBy2Points([+0.00, -3.60], [+0.40, -4.00]))
+        field.append(createRectangleBy2Points([+1.16, -3.04], [+1.56, -3.44]))
+        field.append(createRectangleBy2Points([+0.71, -1.43], [+1.11, -1.14]))
+        field.append(createRectangleBy2Points([+3.30, -1.62], [+3.70, -2.02]))
+        field.append(createRectangleBy2Points([+4.63, -0.13], [+5.03, -0.41]))
 
         # Exchnage Station
-        # self.ax.plot([+1.46, -1.51], [+1.60, -1.98], "black", linewidth = 1)
-        # self.ax.plot([+1.60, -1.66], [+2.43, -1.84], "black", linewidth = 1)
-        # self.ax.plot([+2.43, -1.51], [+2.56, -1.98], "black", linewidth = 1)
+        field.append(createRectangleBy2Points([+1.46, -1.51], [+1.60, -1.98]))
+        field.append(createRectangleBy2Points([+1.60, -1.66], [+2.43, -1.84]))
+        field.append(createRectangleBy2Points([+2.43, -1.51], [+2.56, -1.98]))
 
         # Obstacle
         field.append(plt.Polygon(((+0.00, -3.35),
@@ -124,9 +140,6 @@ class PlotCanvas(FigureCanvas):
                                   (+1.56, -3.04),
                                   (+0.94, -3.04)),
                                 ec='#000000', fill=False))
-
-        # self.ax.plot([+3.19, -2.02], [+4.20, -2.24], "black", linewidth = 1)
-
         field.append(plt.Polygon(((+3.19, -2.02),
                                   (+4.20, -2.02),
                                   (+4.20, -2.24),
