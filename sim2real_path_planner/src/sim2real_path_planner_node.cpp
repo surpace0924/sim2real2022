@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     while (nh.ok())
     {
         // 経路データ読み出して配信
-        tfp.setFilePath("~/catkin_ws/src/sim2real_path_planner/trajectories/sz_" + zone_names[now_goal_id] + ".csv");
+        tfp.setFilePath("~/catkin_ws/src/sim2real2022/sim2real_path_planner/trajectories/sz_" + zone_names[now_goal_id] + ".csv");
         nav_msgs::Path trajectory_msg = tfp.parse();
         pub_trajectory.publish(trajectory_msg);
 
