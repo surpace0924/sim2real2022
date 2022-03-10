@@ -125,7 +125,6 @@ class PlotCanvas(FigureCanvas):
         field.append(createRectangleBy2Points([+1.46, -1.51], [+1.60, -1.98]))
         field.append(createRectangleBy2Points([+1.60, -1.66], [+2.43, -1.84]))
         field.append(createRectangleBy2Points([+2.43, -1.51], [+2.56, -1.98]))
-        
 
         # Obstacle
         field.append(plt.Polygon(((+0.00, -3.35),
