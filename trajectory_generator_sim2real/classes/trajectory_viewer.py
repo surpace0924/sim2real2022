@@ -56,12 +56,12 @@ class TrajectoryViewer:
             p[0] = pose2[0]
         if p[1] > pose2[1]:
             p[1] = pose2[1]
-        
+
         points = [p, p, p, p]
         points[0] = p
-        points[1] = [p[0] + w, p[1]]  
-        points[2] = [p[0] + w, p[1] + h]  
-        points[3] = [p[0], p[1] + h]  
+        points[1] = [p[0] + w, p[1]]
+        points[2] = [p[0] + w, p[1] + h]
+        points[3] = [p[0], p[1] + h]
 
         return plt.Polygon((points[0], points[1], points[2], points[3]), ec=ec, fc=fc, fill=fill)
 
@@ -69,68 +69,68 @@ class TrajectoryViewer:
         fig = plt.figure()
         ax = plt.axes()
 
-        # フィールド構造物の描画
+        # フィールド構造物の描画        # フィールド構造物の描画
         field = []
-        field.append(plt.Polygon(((+0.000, -0.000),
-                                  (+5.000, -0.000),
-                                  (+5.000, -4.000),
-                                  (+0.000, -4.000)),
+        field.append(plt.Polygon(((-0.320, +3.940),
+                                  (+3.680, +3.940),
+                                  (+3.680, -1.060),
+                                  (-0.320, -1.060)),
                                 ec='#000000', fill=False))
 
         # Starting Zone
-        field.append(self.createRectangleBy2Points([+3.74, -3.59], [+4.06, -4.00]))
+        field.append(self.createRectangleBy2Points([-0.320, +0.198], [+0.085, -0.120]))
 
         # Mineral Zone
-        field.append(self.createRectangleBy2Points([+0.00, -3.60], [+0.40, -4.00]))
-        field.append(self.createRectangleBy2Points([+1.16, -3.04], [+1.56, -3.44]))
-        field.append(self.createRectangleBy2Points([+0.71, -1.43], [+1.11, -1.14]))
-        field.append(self.createRectangleBy2Points([+3.30, -1.62], [+3.70, -2.02]))
-        field.append(self.createRectangleBy2Points([+4.63, -0.13], [+5.03, -0.41]))
+        field.append(self.createRectangleBy2Points([-0.320, +3.940], [+0.080, +3.540]))
+        field.append(self.createRectangleBy2Points([+0.238, +2.777], [+0.638, +2.377]))
+        field.append(self.createRectangleBy2Points([+2.537, +3.224], [+2.937, +2.824]))
+        field.append(self.createRectangleBy2Points([+1.659, +0.634], [+2.059, +0.234]))
+        field.append(self.createRectangleBy2Points([+3.266, -0.696], [+3.666, -1.096]))
 
         # Exchnage Station
-        field.append(self.createRectangleBy2Points([+1.46, -1.51], [+1.60, -1.98]))
-        field.append(self.createRectangleBy2Points([+1.60, -1.66], [+2.43, -1.84]))
-        field.append(self.createRectangleBy2Points([+2.43, -1.51], [+2.56, -1.98]))
-        
+        field.append(self.createRectangleBy2Points([+1.694, +2.475], [+2.166, +2.339]))
+        field.append(self.createRectangleBy2Points([+1.838, +2.339], [+2.011, +1.501]))
+        field.append(self.createRectangleBy2Points([+1.694, +1.501], [+2.166, +1.371]))
+
 
         # Obstacle
-        field.append(plt.Polygon(((+0.00, -3.35),
-                                  (+0.23, -3.35),
-                                  (+0.40, -3.73),
-                                  (+0.40, -4.00),
-                                  (+0.00, -4.00)),
+        field.append(plt.Polygon(((+0.638, +2.997),
+                                  (+0.878, +2.997),
+                                  (+0.878, +2.137),
+                                  (+0.278, +2.137),
+                                  (+0.278, +2.377),
+                                  (+0.638, +2.377)),
                                 ec='#000000', fill=False))
-        field.append(plt.Polygon(((+0.94, -2.80),
-                                  (+1.80, -2.80),
-                                  (+1.80, -3.40),
-                                  (+1.56, -3.40),
-                                  (+1.56, -3.04),
-                                  (+0.94, -3.04)),
+        field.append(plt.Polygon(((+1.430, +0.745),
+                                  (+1.659, +0.745),
+                                  (+1.659, -0.267),
+                                  (+1.430, -0.267)),
                                 ec='#000000', fill=False))
-        field.append(plt.Polygon(((+3.19, -2.02),
-                                  (+4.20, -2.02),
-                                  (+4.20, -2.24),
-                                  (+3.19, -2.24)),
+        field.append(plt.Polygon(((-0.320, -0.307),
+                                  (+0.221, -0.307),
+                                  (+0.455, -0.542),
+                                  (+0.455, -1.060),
+                                  (-0.320, -1.060)),
                                 ec='#000000', fill=False))
-                                
-        field.append(plt.Polygon(((+4.24, -4.00),
-                                  (+4.24, -3.45),
-                                  (+4.42, -3.22),
-                                  (+5.00, -3.22),
-                                  (+5.00, -4.00)),
+
+        field.append(plt.Polygon(((-0.320, +3.940),
+                                  (+0.116, +3.940),
+                                  (+0.116, +3.770),
+                                  (-0.053, +3.530),
+                                  (-0.320, +3.530)),
                                 ec='#000000', fill=False))
 
         # Hill
-        field.append(plt.Polygon(((+0.00, -0.00),
-                                  (+4.30, -0.00),
-                                  (+4.30, -0.74),
-                                  (+3.80, -0.74),
-                                  (+3.80, -1.08),
-                                  (+3.03, -1.08),
-                                  (+3.03, -0.74),
-                                  (+0.71, -0.74),
-                                  (+0.71, -2.03),
-                                  (+0.00, -2.03)),
+        field.append(plt.Polygon(((+1.641, +3.940),
+                                  (+1.641, +3.224),
+                                  (+2.937, +3.224),
+                                  (+2.937, +0.908),
+                                  (+2.598, +0.908),
+                                  (+2.598, +0.137),
+                                  (+2.937, +0.137),
+                                  (+2.937, -0.366),
+                                  (+3.680, -0.366),
+                                  (+3.680, +3.940)),
                                 ec='#000000', fill=False))
 
         for f in field:
