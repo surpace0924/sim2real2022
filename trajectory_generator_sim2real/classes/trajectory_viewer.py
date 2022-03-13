@@ -16,14 +16,14 @@ class TrajectoryViewer:
     def createRobot(self, pose, robot=None, ec='#000000', fc='#FFFFFF', fill=False):
         # ロボットの形状定義
         point = []
-        point.append((+0.120, +0.160))
-        point.append((+0.050, +0.160))
-        point.append((+0.050, +0.200))
-        point.append((-0.050, +0.200))
-        point.append((-0.050, +0.160))
-        point.append((-0.120, +0.160))
-        point.append((-0.120, -0.160))
-        point.append((+0.120, -0.160))
+        point.append((+0.160, +0.120))
+        point.append((+0.160, +0.050))
+        point.append((+0.200, +0.050))
+        point.append((+0.200, -0.050))
+        point.append((+0.160, -0.050))
+        point.append((+0.160, -0.120))
+        point.append((-0.160, -0.120))
+        point.append((-0.160, +0.120))
 
         # 回転変換
         rotated_point = np.empty((0,2), float)
